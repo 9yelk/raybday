@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HAPPY BDAY QUEENRAYHANARUBY!!</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', cursive, sans-serif;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(to bottom, #8e6ad8, #c8a2ff);
+      overflow-x: hidden;
+    }
+
+    /* --- LOADING SCREEN --- */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #c8a2ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    #loading-screen img {
+      width: 300px;
+      animation: bowBounce 1s infinite;
+      z-index: 10001;
+    }
+
+    @keyframes bowBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .bow-left,
+    .bow-right {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: #c8a2ff;
+      z-index: 10000;
+    }
+
+    .bow-left { left: 0; }
+    .bow-right { right: 0; }
+
+    .bow-left.animate {
+      animation: slideLeft 2s forwards;
+    }
+
+    .bow-right.animate {
+      animation: slideRight 2s forwards;
+    }
+
+    @keyframes slideLeft {
+      to { transform: translateX(-100%); }
+    }
+
+    @keyframes slideRight {
+      to { transform: translateX(100%); }
+    }
+
+    /* Floating elements */
+    .heart,
+    .sparkle {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: floatUp 8s linear infinite;
+    }
+
+    .heart {
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Filled_heart.svg/1024px-Filled_heart.svg.png') no-repeat center/contain;
+      filter: hue-rotate(250deg) saturate(1.2);
+    }
+
+    .sparkle {
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Star_icon-72a7cf.svg/1024px-Star_icon-72a7cf.svg.png') no-repeat center/contain;
+      filter: hue-rotate(240deg);
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+      }
+    }
+
+    /* --- INTRO PHOTOS --- */
+    .intro-photos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 80px;
+      padding: 20px;
+    }
+
+    .intro-photos img {
+      width: 420px;
+      max-width: 90%;
+      border-radius: 30px;
+      box-shadow: 0 0 35px rgba(255,255,255,0.35);
+      transition: transform 0.4s ease;
+      border: 6px solid rgba(255,255,255,0.3);
+    }
+
+    .intro-photos img:hover {
+      transform: scale(1.03);
+    }
+
+    /* Banner */
+    .banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+      margin-top: 40px;
+    }
+
+    /* Letter */
+    .letter {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 40px 30px;
+      background: rgba(235, 220, 255, 0.9);
+      border-radius: 30px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #2b1647;
+      white-space: pre-line;
+      border: 3px solid rgba(255,255,255,0.2);
+    }
+
+    .letter h1 {
+      color: #7b3fe4;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    /* Cake */
+    .cake img {
+      width: 500px;
+      max-width: 90%;
+      margin: 40px auto 80px;
+      display: block;
+      animation: bounce 2s infinite;
+      filter: drop-shadow(0 0 25px rgba(255,255,255,0.3));
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .letter {
+        margin: 25px;
+        font-size: 1rem;
+        padding: 30px 20px;
+      }
+
+      .letter h1 {
+        font-size: 2rem;
+      }
+
+      .intro-photos {
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="bow-left"></div>
+    <div class="bow-right"></div>
+
+    <img src="purpleribbon.png" alt="Ribbon">
+  </div>
+
+  <!-- FLOATING HEARTS -->
+  <script>
+    function createFloatingElement(type) {
+      const el = document.createElement("div");
+
+      el.className = type;
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.animationDuration = 6 + Math.random() * 4 + "s";
+
+      document.body.appendChild(el);
+
+      setTimeout(() => el.remove(), 10000);
+    }
+
+    setInterval(() => {
+      createFloatingElement(
+        Math.random() > 0.5 ? "heart" : "sparkle"
+      );
+    }, 500);
+
+    // Music
+    const music = document.createElement("audio");
+    music.src = "bdayaudio.mp3";
+    music.loop = true;
+
+    window.addEventListener("load", () => {
+      const left = document.querySelector(".bow-left");
+      const right = document.querySelector(".bow-right");
+      const screen = document.getElementById("loading-screen");
+
+      left.classList.add("animate");
+      right.classList.add("animate");
+
+      setTimeout(() => {
+        screen.style.display = "none";
+
+        music.play().catch(() => {
+          console.log("Autoplay blocked.");
+        });
+
+      }, 2000);
+    });
+
+    document.addEventListener("click", () => {
+      if (music.paused) music.play();
+    }, { once: true });
+  </script>
+
+  <!-- FIRST TWO PHOTOS -->
+  <section class="intro-photos">
+    <img src="firstpic.png" alt="Photo 1">
+    <img src="second pic.png" alt="Photo 2">
+  </section>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <img src="threemirs.png" alt="Banner Photo">
+  </div>
+
+  <!-- LETTER -->
+  <section class="letter">
+
+    <h1>To: our lil sis</h1>
+
+    <p>
+      from: amz, rey, aaf
+      <br>
+      29/05/26
+    </p>
+
+    <p>
+
+
+HAPPY BIRTHDAY ONCE AGAIN! this is a lil token of our appreciation from rey and me to you. It's crazy how ur 15 now which is a year older than 14. And it's funny how u were 10 when I met rey LMFAOO "UrFutureSister" and u had matching pfp w us, me and rey and u were the baby, and u turned out to be my future sister. What a subtle foreshadowing. Anyway I'm glad that happened. Enjoy your lucky birthday (which fell on eid, wont happen for 33 more years.) and may Allah bless you and the family and keep y'all on the Straight Path and make you a source of pride for them ameen! We all got ur back.
+
+    </p>
+
+    <p>
+
+ps. hi rayhana this is aafiya its been a long time since we chatted and i love you so much and u look so pretty, u are my sister, may Allah grant you Jannah make u good in the straight path and give u good marks in exams and give u whatever good u want wallahi i miss you so much. may you become a good thingy to ur family (exact words HAHA) may u become a proud daughter in ur family. wish u a happy birthday i love you. say hi to furkan and sultan for me. sometimes in class i daydream about u doing my nails and me doing ur nails (both ray and rey) and i wish we could have a shopping spree when we meet. 💜
+
+    </p>
+
+  </section>
+
+  <!-- CAKE -->
+  <div class="cake">
+    <img src="raycake.png" alt="Birthday Cake">
+  </div>
+
+</body>
+</html>
