@@ -15,6 +15,24 @@
       overflow-x: hidden;
     }
 
+    /* GLITTER BACKGROUND */
+    .glitter {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: fall linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+
     /* LOADING SCREEN */
     #loading-screen {
       position: fixed;
@@ -50,21 +68,11 @@
     .bow-left { left: 0; }
     .bow-right { right: 0; }
 
-    .bow-left.animate {
-      animation: slideLeft 2s forwards;
-    }
+    .bow-left.animate { animation: slideLeft 2s forwards; }
+    .bow-right.animate { animation: slideRight 2s forwards; }
 
-    .bow-right.animate {
-      animation: slideRight 2s forwards;
-    }
-
-    @keyframes slideLeft {
-      to { transform: translateX(-100%); }
-    }
-
-    @keyframes slideRight {
-      to { transform: translateX(100%); }
-    }
+    @keyframes slideLeft { to { transform: translateX(-100%); } }
+    @keyframes slideRight { to { transform: translateX(100%); } }
 
     /* FLOATING ELEMENTS */
     .heart, .sparkle {
@@ -74,6 +82,7 @@
       pointer-events: none;
       opacity: 0.8;
       animation: floatUp 8s linear infinite;
+      z-index: 1;
     }
 
     .heart {
@@ -92,22 +101,23 @@
       100% { transform: translateY(-10vh) scale(1); opacity: 0; }
     }
 
-    /* INTRO PHOTOS */
+    /* INTRO PHOTOS (UPDATED) */
     .intro-photos {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      gap: 30px;
-      flex-wrap: wrap;
+      gap: 40px;
       margin-top: 80px;
       padding: 20px;
+      position: relative;
+      z-index: 2;
     }
 
     .intro-photos img {
-      width: 420px;
-      max-width: 90%;
+      width: 85%;
+      max-width: 750px;
       border-radius: 30px;
-      box-shadow: 0 0 35px rgba(255,255,255,0.35);
+      box-shadow: 0 0 40px rgba(255,255,255,0.35);
       border: 6px solid rgba(255,255,255,0.3);
     }
 
@@ -123,6 +133,8 @@
       line-height: 1.8;
       border: 3px solid rgba(255,255,255,0.2);
       white-space: pre-line;
+      position: relative;
+      z-index: 2;
     }
 
     .letter h1 {
@@ -138,94 +150,93 @@
       display: block;
       animation: bounce 2s infinite;
       filter: drop-shadow(0 0 25px rgba(255,255,255,0.3));
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
-
-    @media (max-width: 768px) {
-      .letter {
-        margin: 25px;
-        font-size: 1rem;
-      }
-
-      .letter h1 {
-        font-size: 2rem;
-      }
-
-      .intro-photos {
-        gap: 20px;
-      }
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- LOADING SCREEN -->
-  <div id="loading-screen">
-    <div class="bow-left"></div>
-    <div class="bow-right"></div>
-    <img src="purpleribbon.png" alt="Ribbon">
-  </div>
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="bow-left"></div>
+  <div class="bow-right"></div>
+  <img src="purpleribbon.png" alt="Ribbon">
+</div>
 
-  <!-- FLOATING ANIMATION -->
-  <script>
-    function createFloatingElement(type) {
-      const el = document.createElement("div");
-      el.className = type;
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.animationDuration = 6 + Math.random() * 4 + "s";
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 10000);
-    }
+<!-- FLOATING + GLITTER -->
+<script>
+function createFloatingElement(type) {
+  const el = document.createElement("div");
+  el.className = type;
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.animationDuration = 6 + Math.random() * 4 + "s";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 10000);
+}
 
-    setInterval(() => {
-      createFloatingElement(Math.random() > 0.5 ? "heart" : "sparkle");
-    }, 500);
+setInterval(() => {
+  createFloatingElement(Math.random() > 0.5 ? "heart" : "sparkle");
+}, 500);
 
-    window.addEventListener("load", () => {
-      document.querySelector(".bow-left").classList.add("animate");
-      document.querySelector(".bow-right").classList.add("animate");
+/* GLITTER */
+function createGlitter() {
+  const g = document.createElement("div");
+  g.className = "glitter";
+  g.style.left = Math.random() * 100 + "vw";
+  g.style.animationDuration = 3 + Math.random() * 5 + "s";
+  document.body.appendChild(g);
+  setTimeout(() => g.remove(), 8000);
+}
+setInterval(createGlitter, 80);
 
-      setTimeout(() => {
-        document.getElementById("loading-screen").style.display = "none";
-      }, 2000);
-    });
-  </script>
+/* LOADING */
+window.addEventListener("load", () => {
+  document.querySelector(".bow-left").classList.add("animate");
+  document.querySelector(".bow-right").classList.add("animate");
 
-  <!-- PHOTOS -->
-  <section class="intro-photos">
-    <img src="firstpic.png" alt="Photo 1">
-    <img src="secondpic.png" alt="Photo 2">
-  </section>
+  setTimeout(() => {
+    document.getElementById("loading-screen").style.display = "none";
+  }, 2000);
+});
+</script>
 
-  <!-- LETTER -->
-  <section class="letter">
+<!-- PHOTOS -->
+<section class="intro-photos">
+  <img src="firstpic.png" alt="Photo 1">
+  <img src="secondpic.png" alt="Photo 2">
+</section>
 
-    <h1>To: our lil sis</h1>
+<!-- LETTER (UNCHANGED) -->
+<section class="letter">
 
-    <p>
+  <h1>To: our lil sis</h1>
+
+  <p>
 from: amz, rey, aaf  
 29/05/26
-    </p>
+  </p>
 
-    <p>
+  <p>
 HAPPY BIRTHDAY ONCE AGAIN! this is a lil token of our appreciation from us to you. It's crazy how ur 15 now which is a year older than 14. And it's funny how u were 10 when I met rey LMFAOO "UrFutureSister" and u had matching pfp w us, me and rey and u were the baby, and u turned out to be my future sister. What a subtle foreshadowing. Anyway I'm glad that happened. Enjoy your lucky birthday (which fell on eid, wont happen for 33 more years.) and may Allah bless you and the family and keep y'all on the Straight Path and make you a source of pride for them ameen! We all got ur back.
-    </p>
+  </p>
 
-    <p>
+  <p>
 ps. hi rayhana this is aafiya its been a long time since we chatted and i love you so much and u look so pretty, u are my sister, may Allah grant you Jannah make u good in the straight path and give u good marks in exams and give u whatever good u want wallahi i miss you so much. may you become a proud daughter in ur family. 💜
-    </p>
+  </p>
 
-  </section>
+</section>
 
-  <!-- CAKE -->
-  <div class="cake">
-    <img src="raycake.png" alt="Cake">
-  </div>
+<!-- CAKE -->
+<div class="cake">
+  <img src="raycake.png" alt="Cake">
+</div>
 
 </body>
 </html>
